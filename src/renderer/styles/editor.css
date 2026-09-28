@@ -1,15 +1,240 @@
-.editor {
+.editor-container {
   flex: 1;
-  padding: 16px;
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-  font-family: 'Consolas', 'Monaco', monospace;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #0d1117;
+}
+
+.editor-container .cm-editor {
+  flex: 1;
+  height: 100%;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   font-size: 14px;
-  border: none;
-  resize: none;
+  line-height: 1.5;
+}
+
+.editor-container .cm-editor.cm-focused {
+  outline: none;
+}
+
+.editor-container .cm-scroller {
+  overflow: auto;
+  padding: 16px;
+}
+
+.editor-container .cm-content {
+  caret-color: #58a6ff;
+}
+
+.editor-container .cm-cursor {
+  border-left-color: #58a6ff;
+}
+
+.editor-container .cm-selectionBackground,
+.editor-container .cm-content ::selection {
+  background-color: rgba(56, 139, 253, 0.3) !important;
+}
+
+.editor-container .cm-activeLine {
+  background-color: rgba(110, 118, 129, 0.1);
+}
+
+.editor-container .cm-activeLineGutter {
+  background-color: rgba(110, 118, 129, 0.1);
+}
+
+.editor-container .cm-gutters {
+  background-color: #0d1117;
+  border-right: 1px solid #30363d;
+  color: #484f58;
+}
+
+.editor-container .cm-lineNumbers .cm-gutterElement {
+  padding: 0 12px 0 16px;
+  min-width: 40px;
+}
+
+.editor-container .cm-foldGutter {
+  width: 16px;
+}
+
+.markdown-viewer {
+  flex: 1;
+  padding: 32px 48px;
+  overflow: auto;
+  background-color: #0d1117;
+  color: #e6edf3;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.markdown-viewer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.markdown-viewer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.markdown-viewer::-webkit-scrollbar-thumb {
+  background-color: #30363d;
+  border-radius: 4px;
+}
+
+.markdown-viewer::-webkit-scrollbar-thumb:hover {
+  background-color: #484f58;
+}
+
+.markdown-viewer h1,
+.markdown-viewer h2,
+.markdown-viewer h3,
+.markdown-viewer h4,
+.markdown-viewer h5,
+.markdown-viewer h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #e6edf3;
+}
+
+.markdown-viewer h1 {
+  font-size: 2em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #30363d;
+}
+
+.markdown-viewer h2 {
+  font-size: 1.5em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #30363d;
+}
+
+.markdown-viewer h3 {
+  font-size: 1.25em;
+}
+
+.markdown-viewer h4 {
+  font-size: 1em;
+}
+
+.markdown-viewer h5 {
+  font-size: 0.875em;
+}
+
+.markdown-viewer h6 {
+  font-size: 0.85em;
+  color: #7d8590;
+}
+
+.markdown-viewer p {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-viewer a {
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+.markdown-viewer a:hover {
+  text-decoration: underline;
+}
+
+.markdown-viewer code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(110, 118, 129, 0.4);
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+.markdown-viewer pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #161b22;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.markdown-viewer pre code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.markdown-viewer blockquote {
+  padding: 0 1em;
+  color: #7d8590;
+  border-left: 0.25em solid #30363d;
+  margin: 0 0 16px 0;
+}
+
+.markdown-viewer ul,
+.markdown-viewer ol {
+  padding-left: 2em;
+  margin-bottom: 16px;
+}
+
+.markdown-viewer li {
+  margin-bottom: 4px;
+}
+
+.markdown-viewer li + li {
+  margin-top: 4px;
+}
+
+.markdown-viewer hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #30363d;
+  border: 0;
+}
+
+.markdown-viewer table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  width: 100%;
   overflow: auto;
 }
 
-.editor:focus {
-  outline: none;
+.markdown-viewer table th,
+.markdown-viewer table td {
+  padding: 6px 13px;
+  border: 1px solid #30363d;
+}
+
+.markdown-viewer table th {
+  font-weight: 600;
+  background-color: #161b22;
+}
+
+.markdown-viewer table tr {
+  background-color: #0d1117;
+  border-top: 1px solid #30363d;
+}
+
+.markdown-viewer table tr:nth-child(2n) {
+  background-color: #161b22;
+}
+
+.markdown-viewer img {
+  max-width: 100%;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+
+.markdown-viewer input[type="checkbox"] {
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
+  accent-color: #238636;
 }

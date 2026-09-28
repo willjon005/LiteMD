@@ -5,31 +5,34 @@
 .hamburger-btn {
   background: none;
   border: none;
-  color: #d4d4d4;
+  color: #e6edf3;
   font-size: 24px;
   cursor: pointer;
   padding: 8px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 3px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .hamburger-btn:hover {
-  background-color: #3c3c3c;
+  background-color: #21262d;
 }
 
 .menu-dropdown {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #252526;
-  border: 1px solid #3c3c3c;
-  border-radius: 3px;
-  min-width: 150px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  min-width: 160px;
+  box-shadow: 0 8px 24px rgba(1, 4, 9, 0.75);
   z-index: 50;
   margin-top: 4px;
+  padding: 8px 0;
+  overflow: hidden;
 }
 
 .menu-dropdown button {
@@ -38,28 +41,24 @@
   padding: 10px 16px;
   background: none;
   border: none;
-  color: #d4d4d4;
+  color: #e6edf3;
   text-align: left;
   cursor: pointer;
-  font-size: 13px;
-  border-bottom: 1px solid #3c3c3c;
-}
-
-.menu-dropdown button:last-child {
-  border-bottom: none;
+  font-size: 14px;
+  transition: background-color 0.15s ease;
 }
 
 .menu-dropdown button:hover:not(:disabled) {
-  background-color: #2a2d2e;
+  background-color: #1f6feb;
 }
 
 .menu-dropdown button:disabled {
-  color: #6c6c6c;
+  color: #484f58;
   cursor: not-allowed;
 }
 
 .menu-divider {
   height: 1px;
-  background-color: #3c3c3c;
-  margin: 4px 0;
+  background-color: #30363d;
+  margin: 8px 0;
 }
