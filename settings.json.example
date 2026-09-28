@@ -1,0 +1,13 @@
+{
+  "defaultFolder": "/home/user/My Notes",
+  "rememberLastFolder": true,
+  "windowWidth": 1200,
+  "windowHeight": 800,
+  "enableDarkMode": false,
+  "editorFontSize": 14,
+  "editorFontFamily": "Monaco, Consolas, monospace",
+  "showLineNumbers": true,
+  "autoSave": false,
+  "autoSaveInterval": 30000,
+  "enableSyntaxHighlighting": true
+}

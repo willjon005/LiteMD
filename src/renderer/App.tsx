@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { DirListing, FileNode } from '../shared/types';
+import { DirListing, FileNode, AppSettings } from '../shared/types';
 import Sidebar from './components/Sidebar';
 import FileTypeRenderer from './components/FileTypeRenderer';
 import FolderPicker from './components/FolderPicker';
+import Menu from './components/Menu';
+import SettingsMenu from './components/SettingsMenu';
 import './styles/global.css';
 
 const useNativeDialog = window.electronAPI.platform !== 'linux';
@@ -19,9 +21,31 @@ const App: React.FC = () => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
   const [showPicker, setShowPicker] = useState(false);
   const [pickerStartPath, setPickerStartPath] = useState<string | undefined>(undefined);
+  const [settings, setSettings] = useState<AppSettings | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
 
   const rootPathRef = useRef<string | null>(null);
   const requestedRef = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      const loadedSettings = await window.electronAPI.getSettings();
+      setSettings(loadedSettings);
+
+      if (loadedSettings.defaultFolder && loadedSettings.rememberLastFolder) {
+        try {
+          const { tree } = await window.electronAPI.openFolderAt(loadedSettings.defaultFolder);
+          if (tree) {
+            resetToFolder(tree);
+          }
+        } catch (err) {
+          console.error('Failed to open default folder:', err);
+        }
+      }
+    };
+
+    void loadSettings();
+  }, []);
 
   const resetToFolder = (tree: FileNode) => {
     rootPathRef.current = tree.path;
@@ -58,8 +82,6 @@ const App: React.FC = () => {
     resetToFolder(tree);
   };
 
-  // Stable identity: the sidebar runs this from an effect keyed on it, so it
-  // must not change on every state update or it would re-fire endlessly.
   const handleRequestChildren = useCallback(async (dirPath: string) => {
     const rootPath = rootPathRef.current;
     if (!rootPath || requestedRef.current.has(dirPath)) return;
@@ -111,6 +133,15 @@ const App: React.FC = () => {
     else alert(`Failed to save: ${result.error ?? 'unknown error'}`);
   }, [selectedFile, fileContent, isDirty]);
 
+  const handleSaveSettings = async (newSettings: Partial<AppSettings>) => {
+    const success = await window.electronAPI.saveSettings(newSettings);
+    if (success) {
+      setSettings((prev) => (prev ? { ...prev, ...newSettings } : null));
+    } else {
+      throw new Error('Failed to save settings');
+    }
+  };
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
@@ -132,34 +163,21 @@ const App: React.FC = () => {
         onOpenFolder={handleOpenFolder}
         onFileSelect={handleFileSelect}
         onRequestChildren={handleRequestChildren}
+        onSettings={() => setShowSettings(true)}
+        mode={mode}
+        onToggleMode={() => setMode(mode === 'view' ? 'edit' : 'view')}
+        isDirty={isDirty}
+        onSave={handleSave}
       />
       <main className="main-content">
         {selectedFile ? (
-          <>
-            <div className="toolbar">
-              <span className="file-path">
-                {selectedFile}
-                {isDirty && <span className="unsaved-indicator"> *</span>}
-              </span>
-              <div className="toolbar-actions">
-                <button onClick={() => setMode(mode === 'view' ? 'edit' : 'view')}>
-                  {mode === 'view' ? 'Edit' : 'View'}
-                </button>
-                {mode === 'edit' && (
-                  <button onClick={handleSave} disabled={!isDirty}>
-                    Save
-                  </button>
-                )}
-              </div>
-            </div>
-            <FileTypeRenderer
-              content={fileContent}
-              mimeType={mimeType}
-              fileName={selectedFile.split(/[\\/]/).pop() ?? selectedFile}
-              mode={mode}
-              onChange={handleContentChange}
-            />
-          </>
+          <FileTypeRenderer
+            content={fileContent}
+            mimeType={mimeType}
+            fileName={selectedFile.split(/[\\/]/).pop() ?? selectedFile}
+            mode={mode}
+            onChange={handleContentChange}
+          />
         ) : (
           <div className="empty-state">
             {rootFolder ? 'Select a file from the sidebar' : 'Open a folder to get started'}
@@ -171,6 +189,13 @@ const App: React.FC = () => {
           initialPath={pickerStartPath}
           onCancel={() => setShowPicker(false)}
           onSelect={handlePickerSelect}
+        />
+      )}
+      {showSettings && settings && (
+        <SettingsMenu
+          settings={settings}
+          onSave={handleSaveSettings}
+          onClose={() => setShowSettings(false)}
         />
       )}
     </div>

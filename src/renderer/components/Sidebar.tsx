@@ -1,5 +1,6 @@
 import React from 'react';
 import { DirListing, FileNode } from '../../shared/types';
+import Menu from './Menu';
 import '../styles/sidebar.css';
 
 interface SidebarProps {
@@ -9,6 +10,11 @@ interface SidebarProps {
   onOpenFolder: () => void;
   onFileSelect: (filePath: string) => void;
   onRequestChildren: (dirPath: string) => void;
+  onSettings: () => void;
+  mode?: 'view' | 'edit';
+  onToggleMode?: () => void;
+  isDirty?: boolean;
+  onSave?: () => void;
 }
 
 interface FileTreeItemProps {
@@ -127,14 +133,24 @@ const Sidebar: React.FC<SidebarProps> = ({
   selectedFile,
   onOpenFolder,
   onFileSelect,
-  onRequestChildren
+  onRequestChildren,
+  onSettings,
+  mode = 'view',
+  onToggleMode,
+  isDirty = false,
+  onSave
 }) => {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <button className="open-folder-btn" onClick={onOpenFolder}>
-          Open Folder
-        </button>
+        <Menu
+          onOpenFolder={onOpenFolder}
+          onSettings={onSettings}
+          mode={selectedFile ? mode : undefined}
+          onToggleMode={selectedFile ? onToggleMode : undefined}
+          isDirty={isDirty}
+          onSave={selectedFile ? onSave : undefined}
+        />
       </div>
       <div className="file-tree">
         {rootFolder ? (
