@@ -133,6 +133,18 @@ const App: React.FC = () => {
     else alert(`Failed to save: ${result.error ?? 'unknown error'}`);
   }, [selectedFile, fileContent, isDirty]);
 
+  const handleToggleMode = useCallback(async () => {
+    if (mode === 'edit' && isDirty && selectedFile) {
+      const result = await window.electronAPI.saveFile(selectedFile, fileContent);
+      if (result.success) setIsDirty(false);
+      else {
+        alert(`Failed to save: ${result.error ?? 'unknown error'}`);
+        return;
+      }
+    }
+    setMode(mode === 'view' ? 'edit' : 'view');
+  }, [mode, isDirty, selectedFile, fileContent]);
+
   const handleSaveSettings = async (newSettings: Partial<AppSettings>) => {
     const success = await window.electronAPI.saveSettings(newSettings);
     if (success) {
@@ -148,11 +160,15 @@ const App: React.FC = () => {
         e.preventDefault();
         void handleSave();
       }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'e' && selectedFile) {
+        e.preventDefault();
+        void handleToggleMode();
+      }
     };
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [handleSave]);
+  }, [handleSave, handleToggleMode, selectedFile]);
 
   return (
     <div className="app">
@@ -164,12 +180,24 @@ const App: React.FC = () => {
         onFileSelect={handleFileSelect}
         onRequestChildren={handleRequestChildren}
         onSettings={() => setShowSettings(true)}
-        mode={mode}
-        onToggleMode={() => setMode(mode === 'view' ? 'edit' : 'view')}
-        isDirty={isDirty}
-        onSave={handleSave}
       />
       <main className="main-content">
+        {selectedFile && (
+          <div className="toolbar">
+            <span className="toolbar-filename">{selectedFile}</span>
+            <div className="toolbar-actions">
+              <span className="unsaved-indicator">{isDirty ? '●' : ''}</span>
+              <button onClick={handleToggleMode} title="Ctrl+E">
+                {mode === 'view' ? 'Edit' : 'View'}
+              </button>
+              {mode === 'edit' && (
+                <button onClick={handleSave} disabled={!isDirty} title="Ctrl+S">
+                  Save
+                </button>
+              )}
+            </div>
+          </div>
+        )}
         {selectedFile ? (
           <FileTypeRenderer
             content={fileContent}

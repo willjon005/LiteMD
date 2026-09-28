@@ -1,10 +1,10 @@
-# NoteTaker - Project Plan
+# LiteMD - Project Plan
 
 A lightweight, battery-efficient alternative to Obsidian built with Electron + React + Node.js.
 
 ## Overview
 
-NoteTaker is a desktop note-taking application focused on simplicity and performance. Users can browse a directory structure via a sidebar file explorer, view/edit markdown files, and render PDFs. Files can be filtered using a `.noteignore` configuration file.
+LiteMD is a desktop note-taking application focused on simplicity and performance. Users can browse a directory structure via a sidebar file explorer, view/edit markdown files, and render PDFs. Files can be filtered using a `.noteignore` configuration file.
 
 ## Tech Stack
 
@@ -55,7 +55,7 @@ NoteTaker is a desktop note-taking application focused on simplicity and perform
 ## File Structure
 
 ```
-NoteTaker/
+LiteMD/
 ├── src/
 │   ├── main/                          # Electron main process
 │   │   ├── main.ts                    # App entry, window creation
@@ -286,6 +286,15 @@ rendered by the same recursive component, so the lookup has to happen there too.
 for root path and in-flight paths). The sidebar calls it from an effect keyed on
 that callback; if it changed on every state update the effect would re-fire
 forever.
+
+### Renamed from NoteTaker to LiteMD
+`package.json` has `name: "litemd"` and `productName: "LiteMD"`. Electron
+derives `app.getName()` from `productName` and builds `userData` from it, so the
+settings/config directory moved from `~/.config/notetaker` to `~/.config/LiteMD`
+(verified with `app.getPath('userData')`). If you ever change `productName`
+again, migrate the old directory by hand — settings are not ported
+automatically. `.noteignore` deliberately kept its name so existing vaults
+keep working.
 
 ### .noteignore gotchas (see src/main/ipc/ignoreParser.ts)
 - The `ignore` package requires a **trailing slash** when testing directories.

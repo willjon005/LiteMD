@@ -1,7 +1,8 @@
 {
-  "name": "notetaker",
+  "name": "litemd",
+  "productName": "LiteMD",
   "version": "1.0.0",
-  "description": "A lightweight note-taking app",
+  "description": "A lightweight, power-efficient markdown note-taking app",
   "main": "dist/main.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
@@ -25,6 +26,7 @@
     "electron": "^28.0.0",
     "ignore": "^7.0.10",
     "marked": "^18.0.14",
+    "marked-katex-extension": "^5.1.13",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

@@ -33,24 +33,31 @@ html, body, #root {
 
 .toolbar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
+  gap: 12px;
   padding: 8px 16px;
   background-color: #161b22;
   border-bottom: 1px solid #30363d;
+}
+
+.toolbar .unsaved-indicator {
+  color: #d29922;
+  font-size: 12px;
 }
 
 .file-path {
   display: none;
 }
 
-.unsaved-indicator {
-  color: #d29922;
-  font-weight: bold;
+.toolbar-filename {
+  margin-right: auto;
+  gap: 8px;
 }
 
 .toolbar-actions {
   display: flex;
+  margin-left: auto;
   gap: 8px;
 }
 
@@ -298,3 +305,4 @@ html, body, #root {
   border-color: #30363d;
   cursor: not-allowed;
 }
+

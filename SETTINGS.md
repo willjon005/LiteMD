@@ -1,8 +1,8 @@
-# NoteTaker Settings Configuration
+# LiteMD Settings Configuration
 
-NoteTaker stores user settings in a JSON configuration file located at:
-- **Linux/Mac**: `~/.config/NoteTaker/settings.json`
-- **Windows**: `%APPDATA%/NoteTaker/settings.json`
+LiteMD stores user settings in a JSON configuration file located at:
+- **Linux/Mac**: `~/.config/LiteMD/settings.json`
+- **Windows**: `%APPDATA%/LiteMD/settings.json`
 
 ## Configuration Options
 

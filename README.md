@@ -1,4 +1,4 @@
-# NoteTaker
+# LiteMD
 
 A lightweight, power-efficient desktop note-taking app built with Electron, React, and TypeScript.
 

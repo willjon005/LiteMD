@@ -11,10 +11,6 @@ interface SidebarProps {
   onFileSelect: (filePath: string) => void;
   onRequestChildren: (dirPath: string) => void;
   onSettings: () => void;
-  mode?: 'view' | 'edit';
-  onToggleMode?: () => void;
-  isDirty?: boolean;
-  onSave?: () => void;
 }
 
 interface FileTreeItemProps {
@@ -134,11 +130,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   onOpenFolder,
   onFileSelect,
   onRequestChildren,
-  onSettings,
-  mode = 'view',
-  onToggleMode,
-  isDirty = false,
-  onSave
+  onSettings
 }) => {
   return (
     <aside className="sidebar">
@@ -146,10 +138,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         <Menu
           onOpenFolder={onOpenFolder}
           onSettings={onSettings}
-          mode={selectedFile ? mode : undefined}
-          onToggleMode={selectedFile ? onToggleMode : undefined}
-          isDirty={isDirty}
-          onSave={selectedFile ? onSave : undefined}
         />
       </div>
       <div className="file-tree">
