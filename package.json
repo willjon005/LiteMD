@@ -23,7 +23,7 @@
     "@codemirror/state": "^6.7.6",
     "@codemirror/view": "^6.43.13",
     "@lezer/highlight": "^1.2.4",
-    "electron": "^28.0.0",
+    "electron": "^44.4.5",
     "ignore": "^7.0.10",
     "marked": "^18.0.14",
     "marked-katex-extension": "^5.1.13",
